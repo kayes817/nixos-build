@@ -379,11 +379,13 @@ EOF
   hyprlockLauncherScript = pkgs.writeShellScript "hypr-lock-launcher" ''
     exec ${pkgs.swaylock}/bin/swaylock \
       --color 232733 \
+      --clock \
+      --indicator \
       --indicator-idle-visible \
       --indicator-radius 110 \
       --indicator-thickness 8 \
       --font "JetBrainsMono Nerd Font" \
-      --font-size 18 \
+      --font-size 22 \
       --inside-color 2b3040ee \
       --inside-clear-color 2b3040ee \
       --inside-ver-color 2b3040ee \
@@ -401,8 +403,12 @@ EOF
       --text-ver-color eceff4ff \
       --text-wrong-color eceff4ff \
       --layout-text-color d8dee9ff \
+      --line-uses-ring \
       --datestr "%A, %B %d" \
-      --timestr "%H:%M"
+      --timestr "%H:%M" \
+      --datesize 28 \
+      --timesize 72 \
+      --ignore-empty-password
   '';
 
   hostIpScript = pkgs.writeShellScript "waybar-host-ip" ''
