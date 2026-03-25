@@ -8,11 +8,27 @@ This repo is a NixOS flake for a custom desktop environment built around Hyprlan
 - Automatically imports `/etc/nixos/hardware-configuration.nix` when run on the target machine
 - Enables flakes, NetworkManager, OpenSSH, Zsh, and a Hyprland desktop
 - Installs the packages and services needed for the desktop
-- Keeps user-facing config in `dotfiles/` instead of generating it from NixOS modules
+- Keeps the full user-facing config in a separate dotfiles workflow instead of generating it from NixOS modules
+- Provides a tiny fallback Hyprland config so a fresh install can still log in and open a terminal before dotfiles are stowed
+
+## Fallback Session
+
+If your separate dotfiles repo is not cloned or stowed yet, this flake still installs a minimal Hyprland session through `/etc/xdg/hypr/hyprland.conf`.
+
+That fallback session is intentionally basic and is only meant to get you to a usable desktop with a terminal:
+
+- `Super+Enter`: open `alacritty`
+- `Super+D`: open `rofi`
+- `Super+E`: open `thunar`
+- `Super+Q`: close the focused window
+- `Super+Shift+Q`: exit Hyprland
+- `Super+1` through `Super+0`: switch workspaces
+
+Once your dotfiles are installed, your user-level config should take over and replace this fallback behavior.
 
 ## Dotfiles Layout
 
-The user environment now lives under `dotfiles/`:
+The full user environment is expected to live in your separate dotfiles repo. The old in-repo layout looked like:
 
 - `dotfiles/shell/.zshrc`
 - `dotfiles/alacritty/.config/alacritty/alacritty.toml`
@@ -20,7 +36,7 @@ The user environment now lives under `dotfiles/`:
 - `dotfiles/waybar/.config/waybar/`
 - `dotfiles/bin/.local/bin/`
 
-The intention is that NixOS installs the software, and you manage the actual desktop config with `stow`.
+The intention is that NixOS installs the software and gives you a basic rescue desktop, while your actual desktop config is managed with `stow`.
 
 ## Install And Deploy
 
@@ -75,6 +91,8 @@ stow -t "$HOME" shell alacritty hypr waybar bin
 ```
 
 If you update the files in `dotfiles/`, re-run the same `stow` command.
+
+If you have moved the dotfiles to a separate repository, clone that repo first and run the same `stow` command from there.
 
 ## First Things To Customize
 

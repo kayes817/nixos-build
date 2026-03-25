@@ -2,7 +2,26 @@
 
 This documents the keybinds currently defined in `dotfiles/hypr/.config/hypr/hyprland.conf`.
 
+If your separate dotfiles repo is not installed yet, the system falls back to a much smaller Hyprland config from NixOS itself. The fallback only guarantees a basic desktop with a terminal and launcher.
+
 `Super` means the Windows key / `Mod4`.
+
+## Fallback Keybinds
+
+If you have not stowed your dotfiles yet, expect only this smaller set from the fallback config:
+
+- `Super+Enter`: Open the terminal
+- `Super+D`: Open the app launcher
+- `Super+B`: Open Brave
+- `Super+E`: Open Thunar
+- `Super+Alt+L`: Lock the screen
+- `Super+Q`: Close the focused window
+- `Super+Shift+Q`: Exit Hyprland
+- `Super+H/J/K/L`: Focus windows
+- `Super+Shift+H/J/K/L`: Move windows
+- `Super+Shift+Space`: Toggle floating
+- `Super+1` through `Super+0`: Switch workspaces
+- `Super+Shift+1` through `Super+Shift+0`: Move the focused window to a workspace
 
 ## Launching
 

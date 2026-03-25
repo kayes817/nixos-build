@@ -1,5 +1,121 @@
 { pkgs, ... }:
 let
+  fallbackHyprConfig = pkgs.writeText "hyprland-fallback.conf" ''
+    $mod = SUPER
+    $terminal = ${pkgs.alacritty}/bin/alacritty
+    $browser = ${pkgs.brave}/bin/brave
+    $fileManager = ${pkgs.thunar}/bin/thunar
+    $menu = ${pkgs.rofi}/bin/rofi -show drun
+    $lock = ${pkgs.swaylock}/bin/swaylock --color 232733
+
+    monitor = ,preferred,auto,1
+
+    env = XCURSOR_THEME,Adwaita
+    env = XCURSOR_SIZE,24
+    env = HYPRCURSOR_THEME,Adwaita
+    env = HYPRCURSOR_SIZE,24
+    env = NIXOS_OZONE_WL,1
+    env = WLR_NO_HARDWARE_CURSORS,1
+    env = WLR_RENDERER_ALLOW_SOFTWARE,1
+    env = LIBGL_ALWAYS_SOFTWARE,1
+
+    exec-once = ${pkgs.networkmanagerapplet}/bin/nm-applet --indicator
+    exec-once = ${pkgs.dunst}/bin/dunst
+    exec-once = ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
+
+    input {
+      kb_layout = us
+      follow_mouse = 1
+    }
+
+    general {
+      gaps_in = 8
+      gaps_out = 4
+      border_size = 2
+      col.active_border = rgb(88c0d0)
+      col.inactive_border = rgb(4c566a)
+      resize_on_border = true
+      layout = dwindle
+    }
+
+    decoration {
+      rounding = 0
+      active_opacity = 1.0
+      inactive_opacity = 0.96
+    }
+
+    animations {
+      enabled = true
+      animation = windows, 1, 5, default
+      animation = fade, 1, 4, default
+      animation = workspaces, 1, 4, default
+    }
+
+    dwindle {
+      pseudotile = true
+      preserve_split = true
+    }
+
+    misc {
+      disable_hyprland_logo = true
+      disable_splash_rendering = true
+    }
+
+    bind = $mod, Return, exec, $terminal
+    bind = $mod SHIFT, Return, exec, $terminal
+    bind = $mod, D, exec, $menu
+    bind = $mod, B, exec, $browser
+    bind = $mod, E, exec, $fileManager
+    bind = $mod ALT, L, exec, $lock
+    bind = $mod, Q, killactive,
+    bind = $mod SHIFT, Q, exit,
+    bind = $mod SHIFT, C, exec, ${pkgs.hyprland}/bin/hyprctl reload
+
+    bind = $mod, H, movefocus, l
+    bind = $mod, J, movefocus, d
+    bind = $mod, K, movefocus, u
+    bind = $mod, L, movefocus, r
+    bind = $mod, left, movefocus, l
+    bind = $mod, down, movefocus, d
+    bind = $mod, up, movefocus, u
+    bind = $mod, right, movefocus, r
+
+    bind = $mod SHIFT, H, movewindow, l
+    bind = $mod SHIFT, J, movewindow, d
+    bind = $mod SHIFT, K, movewindow, u
+    bind = $mod SHIFT, L, movewindow, r
+
+    bind = $mod, F, fullscreen, 0
+    bind = $mod SHIFT, SPACE, togglefloating,
+    bind = $mod, SPACE, cyclenext
+    bind = $mod, TAB, workspace, previous
+
+    bind = $mod, 1, workspace, 1
+    bind = $mod, 2, workspace, 2
+    bind = $mod, 3, workspace, 3
+    bind = $mod, 4, workspace, 4
+    bind = $mod, 5, workspace, 5
+    bind = $mod, 6, workspace, 6
+    bind = $mod, 7, workspace, 7
+    bind = $mod, 8, workspace, 8
+    bind = $mod, 9, workspace, 9
+    bind = $mod, 0, workspace, 10
+
+    bind = $mod SHIFT, 1, movetoworkspace, 1
+    bind = $mod SHIFT, 2, movetoworkspace, 2
+    bind = $mod SHIFT, 3, movetoworkspace, 3
+    bind = $mod SHIFT, 4, movetoworkspace, 4
+    bind = $mod SHIFT, 5, movetoworkspace, 5
+    bind = $mod SHIFT, 6, movetoworkspace, 6
+    bind = $mod SHIFT, 7, movetoworkspace, 7
+    bind = $mod SHIFT, 8, movetoworkspace, 8
+    bind = $mod SHIFT, 9, movetoworkspace, 9
+    bind = $mod SHIFT, 0, movetoworkspace, 10
+
+    bindm = $mod, mouse:272, movewindow
+    bindm = $mod, mouse:273, resizewindow
+  '';
+
   sddmBackground = pkgs.runCommandLocal "sddm-background" {
     nativeBuildInputs = [ pkgs.imagemagick ];
   } ''
@@ -120,6 +236,8 @@ in
     HYPRCURSOR_THEME = "Adwaita";
     HYPRCURSOR_SIZE = "24";
   };
+
+  environment.etc."xdg/hypr/hyprland.conf".source = fallbackHyprConfig;
 
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
