@@ -40,7 +40,7 @@ let
       substituteInPlace $out/share/sddm/themes/maya-custom/Main.qml \
         --replace 'font.family: "Open Sans Cond Light"' 'font.family: "JetBrainsMono Nerd Font"' \
         --replace 'font.family: "Open Sans"' 'font.family: "JetBrainsMono Nerd Font"'
-    '';
+    fi
   '';
 
   wallpaperCtl = pkgs.writeShellScriptBin "wallpaperctl" ''
