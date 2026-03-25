@@ -30,13 +30,12 @@ let
     hideCursor=false
   '';
 
-  sddmThemePackage = pkgs.symlinkJoin {
-    name = "maya-sddm-theme-custom";
-    paths = [
-      pkgs.where-is-my-sddm-theme
-      sddmThemeOverride
-    ];
-  };
+  sddmThemePackage = pkgs.runCommand "maya-sddm-theme-custom" {} ''
+    mkdir -p $out/share/sddm/themes
+    cp -R ${pkgs.where-is-my-sddm-theme}/share/sddm/themes/maya $out/share/sddm/themes/maya
+    chmod -R u+w $out/share/sddm/themes/maya
+    cp ${sddmThemeOverride}/share/sddm/themes/maya/theme.conf.user $out/share/sddm/themes/maya/theme.conf.user
+  '';
 
   wallpaperCtl = pkgs.writeShellScriptBin "wallpaperctl" ''
     set -euo pipefail
