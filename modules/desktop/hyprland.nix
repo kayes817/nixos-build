@@ -991,6 +991,7 @@ in
         DisplayServer = "x11";
       };
       Theme = {
+        Current = "where_is_my_sddm_theme";
         CursorTheme = "Adwaita";
         CursorSize = 24;
       };
