@@ -11,46 +11,13 @@ This repo is a NixOS flake for a custom desktop environment built around Hyprlan
 
 ## Install And Deploy
 
-### Deploy from `/mnt`
-
-If the repo is mounted locally at `/mnt`, deploy it with:
-
-```bash
-cd /mnt
-sudo NIX_CONFIG='experimental-features = nix-command flakes' nixos-rebuild switch --flake .#default --impure -L
-```
-
-If you are changing boot, display manager, or session stack, prefer:
-
-```bash
-cd /mnt
-sudo NIX_CONFIG='experimental-features = nix-command flakes' nixos-rebuild boot --flake .#default --impure -L
-sudo reboot
-```
-
-`--impure` is required here because the host config imports `/etc/nixos/hardware-configuration.nix`.
-
 ### Deploy from a GitHub repo
 
 For a public GitHub repo, use your actual `owner/repo` flake reference:
 
 ```bash
-sudo NIX_CONFIG='experimental-features = nix-command flakes' nixos-rebuild switch --flake github:<owner>/<repo>#default --impure -L
-```
-
-For bigger login/session changes, use:
-
-```bash
-sudo NIX_CONFIG='experimental-features = nix-command flakes' nixos-rebuild boot --flake github:<owner>/<repo>#default --impure -L
+sudo NIX_CONFIG='experimental-features = nix-command flakes' nixos-rebuild boot --flake github:kayes817/nixos-build#default --impure -L
 sudo reboot
-```
-
-If the repo is private, the simplest path is usually:
-
-```bash
-git clone git@github.com:<owner>/<repo>.git
-cd <repo>
-sudo NIX_CONFIG='experimental-features = nix-command flakes' nixos-rebuild switch --flake .#default --impure -L
 ```
 
 ### Deploy from `/etc/nixos`
@@ -71,12 +38,13 @@ sudo reboot
 ## First things to customize
 
 - `networking.hostName` in `modules/hosts/default.nix`
+- `users.users.r48817` in `modules/hosts/default.nix`
 - `time.timeZone` in `modules/hosts/default.nix`
 - Desktop/services/packages in `modules/desktop/hyprland.nix`
 - General packages in `modules/desktop/general.nix`
 - Security tooling in `modules/tools/rednix.nix`
 
-This repo does not manage a specific named user anymore. The account you created during NixOS installation can be kept as-is.
+This repo currently manages an explicit user account in the host module.
 
 ## Docs
 

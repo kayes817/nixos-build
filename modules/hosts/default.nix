@@ -1,6 +1,6 @@
 { lib, pkgs, self, ... }:
 let
-  zshInit = ''
+  userZshrc = pkgs.writeText "r48817-zshrc" ''
     export EDITOR=nvim
     export VISUAL=nvim
 
@@ -55,33 +55,18 @@ in {
 
   i18n.defaultLocale = "en_US.UTF-8";
 
-  programs.zsh = {
-    enable = true;
-    interactiveShellInit = zshInit;
+  users.users.r48817 = {
+    isNormalUser = true;
+    description = "r48817";
+    extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
   };
 
-  systemd.services.random-hostname = {
-    description = "Generate persistent random node hostname";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network-pre.target" ];
-    before = [ "network-pre.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      state_dir=/var/lib/random-hostname
-      state_file=$state_dir/hostname
+  programs.zsh.enable = true;
 
-      mkdir -p "$state_dir"
-
-      if [ ! -f "$state_file" ]; then
-        num="$(tr -dc '0-9' < /dev/urandom | head -c 6)"
-        echo "node-$num" > "$state_file"
-      fi
-
-      hostname="$(cat "$state_file")"
-      ${pkgs.hostname}/bin/hostnamectl set-hostname "$hostname"
+  system.activationScripts.r48817-zshrc = {
+    text = ''
+      install -D -m 0644 -o r48817 -g users ${userZshrc} /home/r48817/.zshrc
     '';
   };
 
