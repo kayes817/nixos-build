@@ -11,9 +11,15 @@ let
   red = "#bf616a";
   teal = "#8fbcbb";
   wallpaperDir = ../../assets/wallpapers;
+  sddmBackground = pkgs.runCommandLocal "sddm-background" {
+    nativeBuildInputs = [ pkgs.imagemagick ];
+  } ''
+    mkdir -p $out
+    magick -size 1920x1080 xc:'#232733' $out/background.png
+  '';
   sddmThemeConfig = pkgs.writeText "theme.conf" ''
     [General]
-    background=
+    background=${sddmBackground}/background.png
     backgroundMode=fill
     backgroundFill=#232733
     basicTextColor=#eceff4
