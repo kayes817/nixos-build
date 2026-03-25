@@ -3,10 +3,7 @@ let
   fallbackHyprConfig = pkgs.writeText "hyprland-fallback.conf" ''
     $mod = SUPER
     $terminal = ${pkgs.alacritty}/bin/alacritty
-    $browser = ${pkgs.brave}/bin/brave
-    $fileManager = ${pkgs.thunar}/bin/thunar
     $menu = ${pkgs.rofi}/bin/rofi -show drun
-    $lock = ${pkgs.swaylock}/bin/swaylock --color 232733
 
     monitor = ,preferred,auto,1
 
@@ -41,14 +38,7 @@ let
     decoration {
       rounding = 0
       active_opacity = 1.0
-      inactive_opacity = 0.96
-    }
-
-    animations {
-      enabled = true
-      animation = windows, 1, 5, default
-      animation = fade, 1, 4, default
-      animation = workspaces, 1, 4, default
+      inactive_opacity = 1.0
     }
 
     dwindle {
@@ -62,23 +52,14 @@ let
     }
 
     bind = $mod, Return, exec, $terminal
-    bind = $mod SHIFT, Return, exec, $terminal
     bind = $mod, D, exec, $menu
-    bind = $mod, B, exec, $browser
-    bind = $mod, E, exec, $fileManager
-    bind = $mod ALT, L, exec, $lock
     bind = $mod, Q, killactive,
     bind = $mod SHIFT, Q, exit,
-    bind = $mod SHIFT, C, exec, ${pkgs.hyprland}/bin/hyprctl reload
 
     bind = $mod, H, movefocus, l
     bind = $mod, J, movefocus, d
     bind = $mod, K, movefocus, u
     bind = $mod, L, movefocus, r
-    bind = $mod, left, movefocus, l
-    bind = $mod, down, movefocus, d
-    bind = $mod, up, movefocus, u
-    bind = $mod, right, movefocus, r
 
     bind = $mod SHIFT, H, movewindow, l
     bind = $mod SHIFT, J, movewindow, d
@@ -87,8 +68,6 @@ let
 
     bind = $mod, F, fullscreen, 0
     bind = $mod SHIFT, SPACE, togglefloating,
-    bind = $mod, SPACE, cyclenext
-    bind = $mod, TAB, workspace, previous
 
     bind = $mod, 1, workspace, 1
     bind = $mod, 2, workspace, 2
