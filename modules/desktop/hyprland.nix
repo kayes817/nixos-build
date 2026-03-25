@@ -41,7 +41,7 @@ let
     passthru = old.passthru or { };
     name = "where-is-my-sddm-theme-custom";
     pname = "where-is-my-sddm-theme-custom";
-  };
+  });
 
   wallpaperCtl = pkgs.writeShellScriptBin "wallpaperctl" ''
     set -euo pipefail
