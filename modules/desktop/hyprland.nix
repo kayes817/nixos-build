@@ -11,7 +11,7 @@ let
   red = "#bf616a";
   teal = "#8fbcbb";
   wallpaperDir = ../../assets/wallpapers;
-  sddmThemeOverride = pkgs.writeTextDir "share/sddm/themes/where_is_my_sddm_theme/theme.conf.user" ''
+  sddmThemeOverride = pkgs.writeTextDir "share/sddm/themes/maya/theme.conf.user" ''
     [General]
     backgroundFill=#232733
     basicTextColor=#eceff4
@@ -31,7 +31,7 @@ let
   '';
 
   sddmThemePackage = pkgs.symlinkJoin {
-    name = "where-is-my-sddm-theme-custom";
+    name = "maya-sddm-theme-custom";
     paths = [
       pkgs.where-is-my-sddm-theme
       sddmThemeOverride
@@ -988,7 +988,7 @@ in
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = false;
-    theme = "where_is_my_sddm_theme";
+    theme = "maya";
     extraPackages = [
       pkgs.qt6.qt5compat
       sddmThemePackage
@@ -998,7 +998,7 @@ in
         DisplayServer = "x11";
       };
       Theme = {
-        Current = "where_is_my_sddm_theme";
+        Current = "maya";
         CursorTheme = "Adwaita";
         CursorSize = 24;
       };
@@ -1080,6 +1080,7 @@ in
     playerctl
     polkit_gnome
     rofi
+    sddmThemePackage
     slurp
     swaybg
     thunar
