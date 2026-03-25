@@ -12,8 +12,8 @@ This documents the keybinds currently defined in `modules/desktop/hyprland.nix`.
 - `Super+B`: Open Brave
 - `Super+Shift+F`: Open Brave
 - `Super+E`: Open Thunar
-- `Super+Ctrl+L`: Lock the screen
 - `Super+Alt+L`: Lock the screen
+- `swaylock`: Lock the screen manually from a terminal
 
 ## Wallpaper Cycling
 
@@ -83,7 +83,6 @@ If you add wallpapers to `~/Pictures/Wallpapers/`, `wallpaperctl` can use them i
 - `Super+P`: Toggle pseudotile
 - `Super+Ctrl+P`: Float all windows on the current workspace
 - `Super+Ctrl+Shift+P`: Set all floating windows on the current workspace back to tiled
-- `Super+Ctrl+T`: Raise the focused floating window to the top
 - `Super+S`: Toggle the special workspace
 - `Super+Shift+S`: Pin the focused window
 - `Super+A`: Cycle layout message / next layout
@@ -102,7 +101,6 @@ Use these together if you want the current workspace to behave more like a norma
 
 - `Super+Ctrl+P`: Float everything currently open on the active workspace
 - `Super+Ctrl+Shift+P`: Put floating windows on the active workspace back into tiling
-- `Super+Ctrl+T`: Raise the focused floating window to the top of the stack
 
 After `Super+Ctrl+P`, windows are also resized and cascaded so the workspace behaves more like a classic overlapping desktop instead of keeping the old tiled geometry.
 
