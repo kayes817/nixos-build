@@ -1,6 +1,6 @@
 # Hyprland Keybinds
 
-This documents the keybinds currently defined in `modules/desktop/hyprland.nix`.
+This documents the keybinds currently defined in `dotfiles/hypr/.config/hypr/hyprland.conf`.
 
 `Super` means the Windows key / `Mod4`.
 
@@ -27,10 +27,10 @@ This documents the keybinds currently defined in `modules/desktop/hyprland.nix`.
 
 Wallpapers are read from:
 
-- `assets/wallpapers/` in the repo
-- `~/Pictures/Wallpapers/` on the machine
+- `~/Pictures/Wallpapers/`
+- `~/.local/share/wallpapers/`
 
-If you add wallpapers to `~/Pictures/Wallpapers/`, `wallpaperctl` can use them immediately without a rebuild. If you add them to `assets/wallpapers/`, rebuild first so the new files are included in the flake.
+`wallpaperctl` reads those folders directly, so new wallpapers do not require a rebuild.
 
 ## Session
 

@@ -23,7 +23,6 @@
           ./modules/desktop/hyprland.nix
           ./modules/desktop/neovim.nix
           ./modules/tools/rednix.nix
-
         ];
       };
 
