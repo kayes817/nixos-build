@@ -10,6 +10,7 @@ This repo is a NixOS flake for a custom desktop environment built around Hyprlan
 - Installs the packages and services needed for the desktop
 - Keeps the full user-facing config in a separate dotfiles workflow instead of generating it from NixOS modules
 - Provides a tiny fallback Hyprland config so a fresh install can still log in and open a terminal before dotfiles are stowed
+- Adds `~/.local/bin` to `PATH` globally so stowed helper scripts work in graphical sessions
 
 ## Fallback Session
 
@@ -25,6 +26,18 @@ That fallback session is intentionally basic and is only meant to get you to a u
 - `Super+1` through `Super+0`: switch workspaces
 
 Once your dotfiles are installed, your user-level config should take over and replace this fallback behavior.
+
+## Intended Workflow
+
+The intended bootstrap flow is:
+
+1. Install the system and rebuild this flake.
+2. Log in using the fallback Hyprland session or a TTY.
+3. Clone your separate dotfiles repo.
+4. Run `stow` to link the user config into your home directory.
+5. Log out and back in.
+
+Nix should install the software and session plumbing. Your dotfiles repo should own the actual Hyprland, Waybar, shell, and terminal configuration.
 
 ## Dotfiles Layout
 
@@ -93,6 +106,8 @@ stow -t "$HOME" shell alacritty hypr waybar bin
 If you update the files in `dotfiles/`, re-run the same `stow` command.
 
 If you have moved the dotfiles to a separate repository, clone that repo first and run the same `stow` command from there.
+
+Because this flake enables `~/.local/bin` in `PATH`, helper scripts from a stowed `bin/.local/bin/` tree should be available automatically after login.
 
 ## First Things To Customize
 
