@@ -11,7 +11,7 @@ let
   red = "#bf616a";
   teal = "#8fbcbb";
   wallpaperDir = ../../assets/wallpapers;
-  sddmThemeOverride = pkgs.writeTextDir "share/sddm/themes/maya/theme.conf.user" ''
+  sddmThemeConfig = pkgs.writeText "theme.conf" ''
     [General]
     backgroundFill=#232733
     basicTextColor=#eceff4
@@ -30,11 +30,11 @@ let
     hideCursor=false
   '';
 
-  sddmThemePackage = pkgs.runCommand "maya-sddm-theme-custom" {} ''
+  sddmThemePackage = pkgs.runCommand "maya-custom-sddm-theme" {} ''
     mkdir -p $out/share/sddm/themes
-    cp -R ${pkgs.where-is-my-sddm-theme}/share/sddm/themes/maya $out/share/sddm/themes/maya
-    chmod -R u+w $out/share/sddm/themes/maya
-    cp ${sddmThemeOverride}/share/sddm/themes/maya/theme.conf.user $out/share/sddm/themes/maya/theme.conf.user
+    cp -R ${pkgs.where-is-my-sddm-theme}/share/sddm/themes/maya $out/share/sddm/themes/maya-custom
+    chmod -R u+w $out/share/sddm/themes/maya-custom
+    cp ${sddmThemeConfig} $out/share/sddm/themes/maya-custom/theme.conf
   '';
 
   wallpaperCtl = pkgs.writeShellScriptBin "wallpaperctl" ''
@@ -987,7 +987,7 @@ in
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = false;
-    theme = "maya";
+    theme = "maya-custom";
     extraPackages = [
       pkgs.qt6.qt5compat
       sddmThemePackage
@@ -997,7 +997,7 @@ in
         DisplayServer = "x11";
       };
       Theme = {
-        Current = "maya";
+        Current = "maya-custom";
         CursorTheme = "Adwaita";
         CursorSize = 24;
       };
