@@ -13,29 +13,35 @@ let
   wallpaperDir = ../../assets/wallpapers;
   sddmThemeConfig = pkgs.writeText "theme.conf" ''
     [General]
+    background=
+    backgroundMode=fill
     backgroundFill=#232733
     basicTextColor=#eceff4
-    usersFontSize=28
-    sessionsFontSize=16
+    passwordCharacter=*
+    passwordMask=true
     passwordFontSize=24
     passwordInputWidth=0.36
     passwordInputBackground=#2b3040
     passwordInputRadius=0
     passwordCursorColor=#d580ff
     passwordTextColor=#eceff4
+    usersFontSize=28
+    sessionsFontSize=16
     font=JetBrainsMono Nerd Font
     showSessionsByDefault=true
     showUsersByDefault=true
     showUserRealNameByDefault=false
     hideCursor=false
   '';
-
-  sddmThemePackage = pkgs.runCommand "maya-custom-sddm-theme" {} ''
-    mkdir -p $out/share/sddm/themes
-    cp -R ${pkgs.where-is-my-sddm-theme}/share/sddm/themes/maya $out/share/sddm/themes/maya-custom
-    chmod -R u+w $out/share/sddm/themes/maya-custom
-    cp ${sddmThemeConfig} $out/share/sddm/themes/maya-custom/theme.conf
-  '';
+  sddmThemePackage = pkgs.where-is-my-sddm-theme.overrideAttrs (old: {
+    postInstall = (old.postInstall or "") + ''
+      cp ${sddmThemeConfig} $out/share/sddm/themes/where_is_my_sddm_theme/theme.conf
+    '';
+    meta = old.meta or { };
+    passthru = old.passthru or { };
+    name = "where-is-my-sddm-theme-custom";
+    pname = "where-is-my-sddm-theme-custom";
+  };
 
   wallpaperCtl = pkgs.writeShellScriptBin "wallpaperctl" ''
     set -euo pipefail
@@ -987,7 +993,7 @@ in
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = false;
-    theme = "maya-custom";
+    theme = "where_is_my_sddm_theme";
     extraPackages = [
       pkgs.qt6.qt5compat
       sddmThemePackage
@@ -997,7 +1003,7 @@ in
         DisplayServer = "x11";
       };
       Theme = {
-        Current = "maya-custom";
+        Current = "where_is_my_sddm_theme";
         CursorTheme = "Adwaita";
         CursorSize = 24;
       };
