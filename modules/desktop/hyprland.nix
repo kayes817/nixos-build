@@ -634,6 +634,59 @@ EOF
     }
   '';
 
+  hyprlockConfig = pkgs.writeText "hyprlock.conf" ''
+    general {
+      hide_cursor = false
+      grace = 0
+      disable_loading_bar = true
+    }
+
+    background {
+      color = rgb(35, 39, 51)
+    }
+
+    label {
+      text = cmd[update:1000] echo "$(date '+%H:%M')"
+      color = rgba(236, 239, 244, 1.0)
+      font_size = 72
+      font_family = JetBrainsMono Nerd Font
+      position = 0, 90
+      halign = center
+      valign = center
+    }
+
+    label {
+      text = cmd[update:1000] echo "$(date '+%A, %B %d')"
+      color = rgba(184, 192, 212, 1.0)
+      font_size = 20
+      font_family = JetBrainsMono Nerd Font
+      position = 0, 26
+      halign = center
+      valign = center
+    }
+
+    input-field {
+      size = 320, 52
+      position = 0, -30
+      halign = center
+      valign = center
+      outline_thickness = 2
+      dots_size = 0.18
+      dots_spacing = 0.28
+      dots_center = true
+      outer_color = rgb(213, 128, 255)
+      inner_color = rgb(43, 48, 64)
+      font_color = rgb(236, 239, 244)
+      fade_on_empty = false
+      placeholder_text = Password
+      hide_input = false
+      rounding = 0
+      check_color = rgb(143, 188, 187)
+      fail_color = rgb(191, 97, 106)
+      capslock_color = rgb(213, 128, 255)
+    }
+  '';
+
   hyprConfig = pkgs.writeText "hyprland.conf" ''
     $mod = ${mod}
     $terminal = ${pkgs.alacritty}/bin/alacritty --config-file ${alacrittyConfig}
@@ -998,6 +1051,7 @@ in
   };
 
   environment.etc."xdg/hypr/hyprland.conf".source = hyprConfig;
+  environment.etc."xdg/hypr/hyprlock.conf".source = hyprlockConfig;
   environment.etc."xdg/waybar/config.jsonc".source = waybarConfig;
   environment.etc."xdg/waybar/style.css".source = waybarStyle;
 
