@@ -11,37 +11,43 @@ let
   red = "#bf616a";
   teal = "#8fbcbb";
   wallpaperDir = ../../assets/wallpapers;
+  sddmBackground = pkgs.runCommandLocal "sddm-background" {
+    nativeBuildInputs = [ pkgs.imagemagick ];
+  } ''
+    mkdir -p $out
+    magick -size 1920x1080 xc:'#232733' $out/background.png
+  '';
   sddmThemeConfig = pkgs.writeText "theme.conf" ''
     [General]
-    primaryShade=#232733
-    primaryLight=#2b3040
-    primaryDark=#1f2330
-    primaryHue1=#d580ff
-    primaryHue2=#8fbcbb
-    primaryHue3=#d8dee9
-    accentShade=#2b3040
-    accentLight=#3b4252
-    accentHue1=#d580ff
-    accentHue2=#8fbcbb
-    accentHue3=#eceff4
-    normalText=#eceff4
-    successText=#8fbcbb
-    failureText=#bf616a
-    warningText=#d580ff
-    rebootColor=#8fbcbb
-    powerColor=#bf616a
+    background=${sddmBackground}/background.png
+    backgroundMode=fill
+    backgroundFill=#232733
+    basicTextColor=#eceff4
+    passwordCharacter=*
+    passwordMask=true
+    passwordFontSize=16
+    passwordInputWidth=0.24
+    passwordInputBackground=#2b3040
+    passwordInputRadius=0
+    passwordCursorColor=#d580ff
+    passwordTextColor=#eceff4
+    usersFontSize=18
+    sessionsFontSize=12
+    font=JetBrainsMono Nerd Font
+    showSessionsByDefault=true
+    showUsersByDefault=true
+    showUserRealNameByDefault=false
+    hideCursor=false
   '';
-  sddmThemePackage = pkgs.runCommand "maya-custom-sddm-theme" {} ''
-    mkdir -p $out/share/sddm/themes
-    cp -R ${pkgs.kdePackages.sddm}/share/sddm/themes/maya $out/share/sddm/themes/maya-custom
-    chmod -R u+w $out/share/sddm/themes/maya-custom
-    cp ${sddmThemeConfig} $out/share/sddm/themes/maya-custom/theme.conf
-    if [ -f $out/share/sddm/themes/maya-custom/Main.qml ]; then
-      substituteInPlace $out/share/sddm/themes/maya-custom/Main.qml \
-        --replace 'font.family: "Open Sans Cond Light"' 'font.family: "JetBrainsMono Nerd Font"' \
-        --replace 'font.family: "Open Sans"' 'font.family: "JetBrainsMono Nerd Font"'
-    fi
-  '';
+  sddmThemePackage = pkgs.where-is-my-sddm-theme.overrideAttrs (old: {
+    postInstall = (old.postInstall or "") + ''
+      cp ${sddmThemeConfig} $out/share/sddm/themes/where_is_my_sddm_theme/theme.conf
+    '';
+    meta = old.meta or { };
+    passthru = old.passthru or { };
+    name = "where-is-my-sddm-theme-custom";
+    pname = "where-is-my-sddm-theme-custom";
+  });
 
   wallpaperCtl = pkgs.writeShellScriptBin "wallpaperctl" ''
     set -euo pipefail
@@ -971,7 +977,7 @@ in
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = false;
-    theme = "maya-custom";
+    theme = "where_is_my_sddm_theme";
     extraPackages = [
       pkgs.qt6.qt5compat
       sddmThemePackage
@@ -981,7 +987,7 @@ in
         DisplayServer = "x11";
       };
       Theme = {
-        Current = "maya-custom";
+        Current = "where_is_my_sddm_theme";
         CursorTheme = "Adwaita";
         CursorSize = 24;
       };
