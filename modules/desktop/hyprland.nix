@@ -30,6 +30,14 @@ let
     hideCursor=false
   '';
 
+  sddmThemePackage = pkgs.symlinkJoin {
+    name = "where-is-my-sddm-theme-custom";
+    paths = [
+      pkgs.where-is-my-sddm-theme
+      sddmThemeOverride
+    ];
+  };
+
   wallpaperCtl = pkgs.writeShellScriptBin "wallpaperctl" ''
     set -euo pipefail
 
@@ -982,9 +990,8 @@ in
     wayland.enable = false;
     theme = "where_is_my_sddm_theme";
     extraPackages = [
-      pkgs.where-is-my-sddm-theme
       pkgs.qt6.qt5compat
-      sddmThemeOverride
+      sddmThemePackage
     ];
     settings = {
       General = {
