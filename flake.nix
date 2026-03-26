@@ -19,7 +19,6 @@
         modules = [
           ./modules/hosts/default.nix
           ./modules/desktop/general.nix
-          ./modules/desktop/gimp.nix
           ./modules/desktop/hyprland.nix
           ./modules/desktop/neovim.nix
           ./modules/tools/rednix.nix

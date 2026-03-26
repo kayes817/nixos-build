@@ -19,6 +19,7 @@ let
     exec-once = ${pkgs.networkmanagerapplet}/bin/nm-applet --indicator
     exec-once = ${pkgs.dunst}/bin/dunst
     exec-once = ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
+    exec-once = ${pkgs.waybar}/bin/waybar
 
     input {
       kb_layout = us
@@ -236,7 +237,7 @@ in
     slurp
     stow
     swaybg
-    swaylock
+    hyprlock
     thunar
     thunar-volman
     waybar

@@ -37,6 +37,9 @@
     # Video
     vlc
 
+    # Photo
+    gimp
+
     # VPNs
     tailscale
     openvpn
