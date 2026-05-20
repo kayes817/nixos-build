@@ -234,6 +234,7 @@ in
     polkit_gnome
     rofi
     slurp
+    socat
     stow
     swaybg
     hyprlock
