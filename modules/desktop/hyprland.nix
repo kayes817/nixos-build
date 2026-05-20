@@ -171,6 +171,16 @@ in
   };
 
   programs.dconf.enable = true;
+  programs.dconf.profiles.user.databases = [
+    {
+      settings = {
+        "org/gnome/desktop/interface" = {
+          color-scheme = "prefer-dark";
+          gtk-theme = "Adwaita-dark";
+        };
+      };
+    }
+  ];
   programs.thunar.enable = true;
   programs.xfconf.enable = true;
 
@@ -200,6 +210,8 @@ in
     XCURSOR_SIZE = "24";
     HYPRCURSOR_THEME = "Adwaita";
     HYPRCURSOR_SIZE = "24";
+    GTK_THEME = "Adwaita:dark";
+    COLORFGBG = "15;0";
   };
 
   environment.etc."xdg/hypr/hyprland.conf".source = fallbackHyprConfig;
