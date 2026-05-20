@@ -96,45 +96,6 @@ let
     bindm = $mod, mouse:273, resizewindow
   '';
 
-  sddmBackground = pkgs.runCommandLocal "sddm-background" {
-    nativeBuildInputs = [ pkgs.imagemagick ];
-  } ''
-    mkdir -p $out
-    magick -size 1920x1080 xc:'#232733' $out/background.png
-  '';
-
-  sddmThemeConfig = pkgs.writeText "theme.conf" ''
-    [General]
-    background=${sddmBackground}/background.png
-    backgroundMode=fill
-    backgroundFill=#232733
-    basicTextColor=#eceff4
-    passwordCharacter=*
-    passwordMask=true
-    passwordFontSize=16
-    passwordInputWidth=0.24
-    passwordInputBackground=#2b3040
-    passwordInputRadius=0
-    passwordCursorColor=#d580ff
-    passwordTextColor=#eceff4
-    usersFontSize=18
-    sessionsFontSize=12
-    font=JetBrainsMono Nerd Font
-    showSessionsByDefault=true
-    showUsersByDefault=true
-    showUserRealNameByDefault=false
-    hideCursor=false
-  '';
-
-  sddmThemePackage = pkgs.where-is-my-sddm-theme.overrideAttrs (old: {
-    postInstall = (old.postInstall or "") + ''
-      cp ${sddmThemeConfig} $out/share/sddm/themes/where_is_my_sddm_theme/theme.conf
-    '';
-    meta = old.meta or { };
-    passthru = old.passthru or { };
-    name = "where-is-my-sddm-theme-custom";
-    pname = "where-is-my-sddm-theme-custom";
-  });
 in
 {
   services.xserver.enable = true;
@@ -147,17 +108,13 @@ in
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = false;
-    theme = "where_is_my_sddm_theme";
-    extraPackages = [
-      pkgs.qt6.qt5compat
-      sddmThemePackage
-    ];
+    theme = "elarun";
     settings = {
       General = {
         DisplayServer = "x11";
       };
       Theme = {
-        Current = "where_is_my_sddm_theme";
+        Current = "elarun";
         CursorTheme = "Adwaita";
         CursorSize = 24;
       };
