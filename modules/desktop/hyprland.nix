@@ -169,6 +169,8 @@ in
     };
   };
 
+  services.displayManager.defaultSession = "hyprland";
+
   security.polkit.enable = true;
   security.rtkit.enable = true;
 
@@ -221,6 +223,7 @@ in
 
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
+    papirus-icon-theme
     alacritty
     brave
     brightnessctl

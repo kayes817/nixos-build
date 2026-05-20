@@ -8,6 +8,7 @@ This repo is a NixOS flake for a custom desktop environment built around Hyprlan
 - Automatically imports `/etc/nixos/hardware-configuration.nix` when run on the target machine
 - Enables flakes, NetworkManager, OpenSSH, Zsh, and a Hyprland desktop
 - Installs the packages and services needed for the desktop
+- Uses SDDM as the display manager and defaults the login session to Hyprland
 - Keeps the full user-facing config in a separate dotfiles workflow instead of generating it from NixOS modules
 - Provides a tiny fallback Hyprland config so a fresh install can still log in and open a terminal before dotfiles are stowed
 - Adds `~/.local/bin` to `PATH` globally so stowed helper scripts work in graphical sessions
@@ -129,6 +130,7 @@ This repo currently manages an explicit user account in the host module.
 
 Wallpapers are expected in:
 
+- `~/Wallpapers/`
 - `~/Pictures/Wallpapers/`
 - `~/.local/share/wallpapers/`
 
