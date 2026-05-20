@@ -96,6 +96,30 @@ let
     bindm = $mod, mouse:273, resizewindow
   '';
 
+  sddmBackground = pkgs.runCommandLocal "sddm-background-clean" {
+    nativeBuildInputs = [ pkgs.imagemagick ];
+  } ''
+    mkdir -p "$out"
+    magick -size 2560x1440 gradient:'#151923-#232a3a' \
+      \( -size 2560x1440 radial-gradient:'#00000000-#00000088' \) -compose multiply -composite \
+      "$out/background.png"
+  '';
+
+  catppuccinSddmCustom = pkgs.catppuccin-sddm.overrideAttrs (old: {
+    postInstall = (old.postInstall or "") + ''
+      cat > "$out/share/sddm/themes/catppuccin-mocha-mauve/theme.conf" <<EOF
+[General]
+Font="Noto Sans"
+FontSize=9
+ClockEnabled="true"
+CustomBackground="true"
+LoginBackground="false"
+Background="${sddmBackground}/background.png"
+UserIcon="false"
+EOF
+    '';
+  });
+
 in
 {
   services.xserver.enable = true;
@@ -108,13 +132,14 @@ in
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = false;
-    theme = "elarun";
+    theme = "catppuccin-mocha-mauve";
+    extraPackages = [ catppuccinSddmCustom ];
     settings = {
       General = {
         DisplayServer = "x11";
       };
       Theme = {
-        Current = "elarun";
+        Current = "catppuccin-mocha-mauve";
         CursorTheme = "Adwaita";
         CursorSize = 24;
       };
@@ -181,6 +206,7 @@ in
   environment.systemPackages = with pkgs; [
     adwaita-icon-theme
     papirus-icon-theme
+    catppuccinSddmCustom
     alacritty
     brave
     brightnessctl
