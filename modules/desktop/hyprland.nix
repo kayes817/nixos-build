@@ -157,6 +157,7 @@ in
   security.rtkit.enable = true;
 
   networking.networkmanager.enable = true;
+  services.tailscale.enable = true;
 
   services.gnome.gnome-keyring.enable = true;
   services.gvfs.enable = true;
